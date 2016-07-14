@@ -1,27 +1,27 @@
 const router = require('express').Router();
 
-const taskData = [];
+const db     = require('../models/task.js');
 
-router.get('/', (req,res) => {
-  res.send(taskData);
+router.get('/', db.getTasks, (req,res) => {
+  res.json(res.rows);
 })
 
-router.post('/', (req,res) => {
+router.post('/', db.addTask, (req,res) => {
   // res.send('new task page');
-  taskData.push(req.body)
-  res.json(taskData);
+  // taskData.push(req.body)
+  res.json(res.rows);
 })
 
-router.get('/:id', (req,res) => {
-  res.send(`show task ${req.params.id}`);
+// router.get('/:id', (req,res) => {
+//   res.send(`show task ${req.params.id}`);
+// })
+
+router.put('/:id', db.updateTask, (req,res) => {
+  res.json(res.rows);
 })
 
-router.put('/:id', (req,res) => {
-  res.send(`edited task ${req.params.id}`);
-})
-
-router.delete('/:id', (req,res) => {
-  res.send(`deleted task ${req.params.id}`);
+router.delete('/:id', db.deleteTask, (req,res) => {
+  res.send(req.params.taskId);
 })
 
 module.exports = router
